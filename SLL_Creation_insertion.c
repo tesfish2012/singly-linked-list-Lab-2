@@ -6,50 +6,52 @@ struct node
    int data;
    struct node *next;
   }*start;
-void DeletatFirst();
-void deleeteatAnyPosission(int pos);
-void deleteLastNode();
 void create_node(int n);
+void insertatBegin(int num);
+void insertatEnd(int num);
+void insertatMiddle(int num, int pos);
 void display();
 
 int main()
 {
-     int n ;
+    int n ;
+	int num ,pos;
     printf("enter number of nodes to create a linked list\n");
     scanf("%d",&n);
 	create_node(n);
-	int num ,number,numberend,pos;
-	printf("enter the any any number to deleete  the first node\n");
-	scanf("%d",&number);
-     DeletatFirst();
-    printf("enter the position to delete the node \n");
+	printf("enter the data at the bigining\n");
+    scanf("%d",&num);
+   insertatBegin(num);
+    printf("enter the position \n");
     scanf("%d",&pos);
-   deleeteatAnyPosission( pos);
+    printf(" the data is going to fill\n");
+    scanf("%d",&num);
+    insertatMiddle(num, pos);
      
-    printf("enter any number to delete at the end\n");
-    scanf("%d",&numberend);
-    deleteLastNode();
+    printf("enter the data at the ending\n");
+    scanf("%d",&num);
+    insertatEnd(num);
     return 0;
 }
 
 
 
 void create_node(int n){
-	typedef struct node new_node;
-    new_node *head,  *temp = NULL; 
+ struct node *new_node ,*temp = NULL; 
     start= NULL;
-    int i =0;
+    int i =0,num;
     while (i<n)
     {
-        head  = (new_node *)malloc(sizeof(new_node));
-        printf("Enter the data %d : ",i+1);
-        scanf("%d", &head-> data);
+       new_node = (struct node *)malloc(sizeof(struct node));
+        printf("Enter the data at pos %d :" ,i+1);
+        scanf("%d", &new_node-> data);
         if (start != NULL){
-            temp->next = head;
-            temp = head;
+        	new_node->data;
+            temp->next = new_node;
+            temp = new_node;
         }
         else {
-            start = temp = head;
+            start = temp = new_node;
         }
        i++;
     }    
@@ -62,104 +64,81 @@ void create_node(int n){
         temp = temp -> next;
     }
     printf("NULL\n"); 
+    return;
 }
 
+void insertatBegin(int num)
+{
+    struct node *new_node;
+    new_node = (struct node*)malloc(sizeof(struct node));
+        new_node->data = num; 
+        new_node->next =start; 
+        start = new_node; 
+        display();
+}
 
+void insertatEnd(int num)
+{
+struct node *new_node, *temp;
+    new_node = (struct node*)malloc(sizeof(struct node));
+    if(new_node == NULL)
+    {
+        printf(" Memory can not be allocated.");
+    }
+    else
+    {
+        new_node->data = num;     
+        new_node->next = NULL; 
+        temp = start;
+        while(temp->next != NULL)
+            temp = temp->next;
+            temp->next = new_node; 
+           
+    }
+	 display();
+}
+
+void insertatMiddle(int num, int pos)
+{
+    int i;
+    struct node *new_node, *temp;
+    new_node = (struct node*)malloc(sizeof(struct node));
+    if(new_node == NULL)
+    {
+        printf(" Memory can not be allocated.");
+    }
+    else
+    {
+        new_node->data = num; 
+        new_node->next = NULL;
+        temp = start;
+        for(i=2; i<=pos-1; i++)
+        {
+            temp = temp->next;
+            if(temp == NULL)
+                break;
+        }
+        if(temp != NULL)
+        {
+            new_node->next = temp->next;  
+            temp->next = new_node; 
+		  
+        }
+        else
+        {
+            printf("There is not present like this position\n");
+        }
+    }
+	display();
+}
 void display(){
 	struct node *new_node;
 	printf("\n lists of the singlly linked list is\n");
 	new_node=start;
-    while (new_node!= NULL)
+    while (new_node != NULL)
     {
         printf("%d=>", new_node->data);
         new_node =new_node -> next;
     }
     printf("NULL\n");
 }
-
-
-
-void DeletatFirst()
-{
-    struct node *node_to_delete;
-    if(start == NULL)
-    {
-        printf(" there is no node to delete");
-    }
-    else
-    {
-        node_to_delete = start;
-        start = start->next;
-        printf("\nthe data at start is going to delete %d\n", node_to_delete->data);
-        free(node_to_delete);  
-        display();
-    }
-}
-
-void deleeteatAnyPosission(int pos)
-{
-    int i;
-    struct node *node_to_delete, *temp;
- 
-    if(start == NULL)
-    {
-        printf(" There are no nodes in the List");
-    }
-    else
-    {
-        node_to_delete = start;
-        temp = start;
- 
-        for(i=2; i<=pos; i++)
-        {
-            temp = node_to_delete;
-            node_to_delete = node_to_delete->next;
- 
-            if(node_to_delete == NULL)
-                break;
-        }
-        if(node_to_delete != NULL)
-        {
-            if(node_to_delete == start)
-                start = start->next;
- 
-            temp->next = node_to_delete->next;
-            node_to_delete->next = NULL;
-            free(node_to_delete);
-            display();
-        }
-        else
-        {
-            printf(" Deletion can not be possible from that position\n");
-        }
-    }
-}
-
-void deleteLastNode()
-{
-    struct node *node_to_delete, *temp;
-    if(start == NULL)
-    {
-        printf(" There is no element  to delete");
-    }
-    else
-    {
-        node_to_delete = start;
-        temp = start;
-        while(node_to_delete->next != NULL)
-        {
-            temp = node_to_delete;
-            node_to_delete = node_to_delete->next;
-        }
-        if(node_to_delete == start)
-        {
-            start = NULL;
-        }
-        else
-        { 
-      temp->next = NULL;
-        }
-        free(node_to_delete);
-        display();
-    }
-	}
